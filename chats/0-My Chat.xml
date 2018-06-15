@@ -1,1 +1,1 @@
-<xml><chat><users><user>McCain P.</user></users><content><text sender="Username">Hello!</text></content></chat></xml>
+<xml><chat><users><user>McCain P.</user></users><content><text sender="Username">Hello!</text><text sender="McCain P.">Hello, again!</text></content></chat></xml>
