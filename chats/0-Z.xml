@@ -1,1 +1,1 @@
-<xml><chat><users><user>Test</user></users><content><text sender="Username">test</text><file sender="Username" mimeType="image/jpeg">dW5kZWZpbmVk</file></content></chat></xml>
+<xml><chat><users><user>Test</user></users><content><text sender="Username">test</text><file sender="Username" mimeType="image/jpeg">dW5kZWZpbmVk</file><text sender="Test">test</text><file sender="Test" mimeType="image/jpeg">dW5kZWZpbmVk</file></content></chat></xml>
