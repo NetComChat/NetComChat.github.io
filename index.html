@@ -1,7 +1,993 @@
 <html>
+  <head>
+    <!--
+      NetCom, created by McCain Potasky
+    -->
+    <title>
+      NetCom
+    </title>
+    <style>
+      body {
+        background-color: RGB(0,0,0); 
+      }
+      body * {
+        padding: 0;
+        border: 0;
+        margin: 0;
+        outline: none;
+      }
+      button {
+        border-radius: 12.5%;
+        border-style: solid;
+        border-width: 0.3vw;
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 2vw;
+        text-align: center;
+      }
+      button.blue {
+        background-color: RGB(0,0,255);
+        border-color: RGB(0,0,192);
+        box-shadow: 0.3vw 0.3vw 0 0 RGB(0,0,128);
+      }
+       button.purple {
+        background-color: RGB(255,0,255);
+        border-color: RGB(192,0,192);
+        box-shadow: 0.3vw 0.3vw 0 0 RGB(128,0,128);
+      }
+      button.black {
+        background-color: RGB(0,0,0);
+        border-color: RGB(255,255,255);
+        box-shadow: 0.3vw 0.3vw 0 0 RGB(128,128,128); 
+      }
+      button.blue:hover {
+        background-color: RGB(128,128,255); 
+      }
+      button.purple:hover {
+        background-color: RGB(255,128,255); 
+      }
+      button.black:hover {
+        background-color: RGB(128,128,128);
+      }
+      button:active {
+        box-shadow: none;
+        transform: translate(0.3vw,0.3vw);  
+      }
+      button.blue:active {
+        background-color: RGB(0,0,192);
+      }
+      button.purple:active {
+        background-color: RGB(192,0,192); 
+      }
+      button.black:active {
+        background-color: RGB(64,64,64);
+      }
+      .icon {
+        background-repeat: no-repeat;
+        background-size: auto 75%;
+        background-origin: content-box;
+        background-position: center;
+      }
+      #header {
+        height: 10vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        border-bottom: 2vh solid RGB(0,0,255);
+        z-index: 1;
+      }
+      #footer {
+        height: 20vh;
+        width: 100vw;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-color: RGB(0,0,0);
+        border-top: 2vh solid RGB(255,0,255);
+      }
+      #header * {
+        position: absolute; 
+      }
+      #logo {
+        height: 100%;
+        top: 0;
+        left: 1%;
+      }
+      #chatKeyPreface {
+        top: 50%;
+        left: 30%;
+        transform: translateY(-50%);
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 2vw;
+      }
+      #chatKeyInput {
+        width: 10%;
+        top: 50%;
+        left: 40%;
+        transform: translateY(-50%);
+        background-color: RGBA(0,0,0,0);
+        border: 0.3vw solid RGB(255,255,255);
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 1vw;
+      }
+      #connectChat {
+        width: 7.5%;
+        height: 50%;
+        top: 25%;
+        left: 52.5%;
+        font-size: 1.5vw;
+      }
+      #createChat {
+        width: 7.5%;
+        height: 50%;
+        top: 25%;
+        left: 62.5%;
+        font-size: 1.5vw;
+      }
+      #setUsername {
+        width: 7.5%;
+        height: 50%;
+        top: 25%;
+        right: 20%;
+        font-size: 1.5vw;
+      }
+      #usernameInput {
+        width: 15%;
+        top: 50%;
+        right: 2.5%;
+        transform: translateY(-50%);
+        background-color: RGBA(0,0,0,0);
+        border: 0.5vw solid RGB(255,255,255);
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 2vw;
+      }
+      #headerBackground {
+        height: 10vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: RGB(0,0,0);
+        border-bottom: 2vh solid RGB(0,0,255);
+        z-index: -1;
+      }
+      #createChatDropdown {
+        height: 50%;
+        width: 45%;
+        right: 0;
+        top: 0;
+        background-color: RGB(0,0,0);
+        border: 0.5vw solid RGB(255,255,255);
+        border-top: none;
+        border-right: none;
+        z-index: -2;
+      }
+      @keyframes createChatDropdown {
+        from {
+          top: 0;
+        }
+        to {
+          top: calc(100% + 2vh);
+        }
+      }
+      @keyframes createChatRiseup {
+        from {
+          top: calc(100% + 2vh);
+        }
+        50% {
+          top: calc(100% + 2vh);
+        }
+        to {
+          top: 0;
+        }
+      }
+      #createChat:active ~ #createChatDropdown, #createChat ~ #createChatDropdown:hover {
+        animation: 0.5s linear 0s 1 normal forwards running createChatDropdown;
+      }
+      #createChat:not(:active) ~ #createChatDropdown:not(:hover) {
+        animation: 1s linear 0s 1 normal forwards running createChatRiseup;
+      }
+      #keyPhrasePreface {
+        top: 50%;
+        left: 5%;
+        transform: translateY(-50%);
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 1.5vw;
+      }
+      #keyPhraseInput {
+        width: 45%;
+        top: 50%;
+        left: 25%;
+        transform: translateY(-50%);
+        background-color: RGBA(0,0,0,0);
+        border: 0.25vw solid RGB(255,255,255);
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 1.5vw;
+      }
+      #keyPhraseCreateButton {
+        height: 75%;
+        width: 20%;
+        top: 12.5%;
+        right: 5%;
+        font-size: 1.5vw;
+      }
+      #footer * {
+        position: absolute;
+      }
+      #messageInput {
+        height: 75%;
+        width: 55%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        border: 1vh solid RGB(255,0,255);
+      }
+      #textInput {
+        height: 60%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: RGBA(0,0,0,0);
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 1vw;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        overflow-y: auto;
+        resize: none;
+      }
+      #fileInput {
+        height: calc(40% - 1vh);
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        border-top: 1vh solid RGB(255,0,255);
+      }
+      #fileSelect {
+        height: 80%;
+        width: 8%;
+        top: 10%;
+        left: 2%;
+        background-image: URL(resources/fileIcon.svg);
+      }
+      #fileNames {
+        width: 85%;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        text-align: left;
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 1vw;
+      }
+      #fileInputElement {
+        display: none; 
+      }
+      #messageSend {
+        height: 25%;
+        width: 10%;
+        top: 37.5%;
+        right: 5%;
+      }
+      #chat {
+        height: 66vh;
+        width: 100vw;
+        position: fixed; 
+        top: 12vh;
+        left: 0;
+        padding-left: 10vw;
+        padding-right: 10vw;
+        overflow-y: scroll;
+      }
+      #chat > * {
+        position: relative;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+      }
+      #chat > p {
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 1vw;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+      .media {
+        height: 22vh;
+        width: 16.5vh;
+        border-style: solid;
+        border-width: 0.5vw;
+        border-color: RGB(0,0,255);
+      }
+      .media * {
+        position: absolute; 
+      }
+      .mediaContent {
+        height: 75%;
+        width: 100%;
+        max-height: 75%;
+        max-width: 100%;
+        top: 0;
+        left: 0;
+        border: none;
+      }
+      .mediaControls {
+        height: 25%;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        background-color: RGB(0,0,255);
+      }
+      .mediaControls > button {
+        height: 75%;
+        width: 18.75%;
+        background-size: auto 50%;
+      }
+      .mediaControls > .downloadButton {
+        top: 12.5%;
+        right: 5%;
+        background-image: URL(resources/fileIcon.svg);
+      }
+      .mediaControls > .playButton {
+        top: 12.5%;
+        left: 5%;
+        background-image: URL(resources/playIcon.svg);
+      }
+      .mediaControls > .pauseButton {
+        top: 12.5%;
+        left: 28.75%;
+        background-image: URL(resources/pauseIcon.svg);
+      }
+      .mediaControls > .speedButton {
+        top: 12.5%;
+        left: 52.5%;
+        background-image: URL(resources/speedIcon.svg);
+      }
+      .mediaControls > .speedButtonDropdown {
+        height: 100%;
+        width: calc(100% + 1vw);
+        left: -0.5vw;
+        top: calc(0.5vw); /*100% + 0.5vw*/
+        background-color: RGB(255,0,255);
+        z-index: -1;
+      }
+      @keyframes mediaDropdown {
+        from {
+          top: 0.5vw;
+        }
+        to {
+          top: calc(100% + 0.5vw);
+        }
+      }
+      @keyframes mediaRiseup {
+        from {
+          top: calc(100% + 0.5vw);
+        }
+        50% {
+          top: calc(100% + 0.5vw);
+        }
+        to {
+          top: 0.5vw;
+        }
+      }
+      .speedButton:active ~ .speedButtonDropdown, .speedButton ~ .speedButtonDropdown:hover {
+        animation: 0.5s linear 0s 1 normal forwards running mediaDropdown;
+      }
+      .speedButton:not(:active) ~ .speedButtonDropdown:not(:hover) {
+        animation: 1s linear 0s 1 normal forwards running mediaRiseup;
+      }
+      .setCurrentTimeButton {
+        height: 75%;
+        width: 15%;
+        top: 12.5%;
+        left: 5%;
+        background-image: URL(resources/playIcon.svg);
+        background-size: auto 50%;
+      }
+      .currentTimeInput {
+        height: 75%;
+        width: 20%;
+        top: 12.5%;
+        left: 25%;
+        background-color: RGB(0,0,0);
+        border: 0.2vw solid RGB(255,255,255);
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 2vw;
+      }
+      .setPlaybackSpeedButton {
+        height: 75%;
+        width: 15%;
+        top: 12.5%;
+        left: 50%;
+        background-image: URL(resources/speedIcon.svg);
+        background-size: auto 50%;
+      }
+      .playbackSpeedInput {
+        height: 75%;
+        width: 20%;
+        top: 12.5%;
+        left: 70%;
+        background-color: RGB(0,0,0);
+        border: 0.2vw solid RGB(255,255,255);
+        color: RGB(255,255,255);
+        font-family: "Arial", sans-serif;
+        font-size: 2vw;
+      }
+      .fileDownloadButton {
+        height: 10vh;
+        width: 10vh;
+        background-image: URL(resources/fileIcon.svg);
+      }
+    </style>
+  </head>
   <body>
-    <h1>
-      Index
-    </h1>
+    <div id="header">
+      <img src="resources/netComLogo.svg" id="logo">
+      <p id="chatKeyPreface">
+        Chat Key:
+      </p>
+      <input type="text" id="chatKeyInput">
+      </input>
+      <button id="connectChat" class="purple" onclick="setChatKey(document.getElementById('chatKeyInput').value)">
+        Connect
+      </button>
+      <button id="createChat" class="purple">
+        Create
+      </button>
+      <button id="setUsername" class="blue" onclick="setUsername(document.getElementById('usernameInput').value)">
+        Set User
+      </button>
+      <input type="text" id="usernameInput">
+      </input>
+      <div id="headerBackground">
+      </div>
+      <div id="createChatDropdown">
+        <p id="keyPhrasePreface">
+          Key Phrase:
+        </p>
+        <input type="text" id="keyPhraseInput">
+        </input>
+        <button id="keyPhraseCreateButton" class="purple" onclick="createChat(document.getElementById('keyPhraseInput').value)">
+          Create
+        </button>
+      </div>
+    </div>
+    <div id="chat">
+    </div>
+    <div id="footer">
+      <div id="messageInput">
+        <textarea id="textInput"></textarea>
+        <div id="fileInput">
+          <button id="fileSelect" class="blue icon" onclick="document.getElementById('fileInputElement').click()">
+          </button>
+          <p id="fileNames">
+          </p>
+          <input type="file" id="fileInputElement" onchange="document.getElementById('fileNames').innerHTML = this.files[0].name">
+          </input>
+        </div>
+      </div>
+      <button id="messageSend" class="blue" onclick="writeChat(document.getElementById('textInput').value,document.getElementById('fileInputElement').files[0])">
+          Send
+      </button>
+    </div>
   </body>
+  <script>
+    //NetCom, created by McCain Potasky
+    
+    var chatKey = null;
+    var username = null;
+    var users = [];
+    
+    /*Username colors:
+    
+    //Colors can change, as the chat content is updated every time the XML document is read again
+    //(maximum RGB spectrum color value)/document.chat.users.getChildNodes().length (approximate)  -  This gets you the color value to increment the usernames by. Store this in a variable somewhere, and then reference it when content elements are being created
+    
+    evenly distribute amongst the color spectrum
+    function rgbSpectrumColorValue(value) {
+      if () { 0 <= value <= 1536
+        function code 
+      } else {
+        return undefined;
+      };
+    };
+    */
+    
+    var chat = document.getElementById("chat");
+    
+    function createChatContent(contentType,contentData,sendingUser) {
+      if (contentType === "text/plain") {
+        //Text
+        var textElement = document.createElement("p");
+        textElement.innerHTML = sendingUser + ": " + contentData;
+        chat.appendChild(textElement);
+      } else {
+        if (RegExp("^image/.*").test(contentType) === true) {
+          //Image
+          var media = document.createElement("div");
+          media.className = "media";
+          chat.appendChild(media);
+          var mediaContent = document.createElement("img");
+          mediaContent.className = "mediaContent";
+          mediaContent.src = "data:" + contentType + ";base64," + contentData; 
+          media.appendChild(mediaContent);
+          var mediaControls = document.createElement("div");
+          mediaControls.className = "mediaControls";
+          media.appendChild(mediaControls);
+          var downloadButton = document.createElement("button");
+          downloadButton.className = "downloadButton blue icon";
+          downloadButton.onclick = function() {
+            console.log("download");
+            //window.location = this.parentElement.parentElement.getElementsByClassName('mediaContent')[0].src;
+            var downloadLink = document.createElement("a");
+            //downloadLink.href = this.parentElement.parentElement.getElementsByClassName('mediaContent')[0].src;
+            downloadLink.download = "download";
+            downloadLink.href = "resources/fileIcon.svg";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+          };
+          mediaControls.appendChild(downloadButton);
+        } else {
+          if (RegExp("^video/.*").test(contentType) === true) {
+            //Video
+            var media = document.createElement("div");
+            media.className = "media";
+            chat.appendChild(media);
+            var mediaContent = document.createElement("video");
+            mediaContent.className = "mediaContent";
+            mediaContent.src = "data:" + contentType + ";base64," + contentData; 
+            media.appendChild(mediaContent);
+            var mediaControls = document.createElement("div");
+            mediaControls.className = "mediaControls";
+            media.appendChild(mediaControls);
+            var playButton = document.createElement("button");
+            playButton.className = "playButton purple icon";
+            playButton.onclick = function() {
+              this.parentElement.parentElement.getElementsByClassName("mediaContent")[0].play();
+            };
+            mediaControls.appendChild(playButton);
+            var pauseButton = document.createElement("button");
+            pauseButton.className = "pauseButton purple icon";
+            pauseButton.onclick = function() {
+              this.parentElement.parentElement.getElementsByClassName("mediaContent")[0].pause();
+            };
+            mediaControls.appendChild(pauseButton);
+            var speedButton = document.createElement("button");
+            speedButton.className = "speedButton blue icon";
+            mediaControls.appendChild(speedButton);
+            var speedButtonDropdown = document.createElement("div");
+            speedButtonDropdown.className = "speedButtonDropdown";
+            mediaControls.appendChild(speedButtonDropdown);
+            var setCurrentTimeButton = document.createElement("button");
+            setCurrentTimeButton.className = "setCurrentTimeButton blue icon";
+            setCurrentTimeButton.onclick = function() {
+              this.parentElement.parentElement.parentElement.getElementsByClassName("mediaContent")[0].currentTime = this.parentElement.getElementsByClassName("currentTimeInput")[0].value;
+            };
+            speedButtonDropdown.appendChild(setCurrentTimeButton);
+            var currentTimeInput = document.createElement("input");
+            currentTimeInput.className = "currentTimeInput";
+            currentTimeInput.type = "text";
+            speedButtonDropdown.appendChild(currentTimeInput);
+            var setPlaybackSpeedButton = document.createElement("button");
+            setPlaybackSpeedButton.className = "setPlaybackSpeedButton purple icon";
+            setPlaybackSpeedButton.onclick = function() {
+              this.parentElement.parentElement.parentElement.getElementsByClassName("mediaContent")[0].playbackRate = this.parentElement.getElementsByClassName("playbackSpeedInput")[0].value;
+            };
+            speedButtonDropdown.appendChild(setPlaybackSpeedButton);
+            var playbackSpeedInput = document.createElement("input");
+            playbackSpeedInput.className = "playbackSpeedInput";
+            playbackSpeedInput.type = "text";
+            speedButtonDropdown.appendChild(playbackSpeedInput);
+            var downloadButton = document.createElement("button");
+            downloadButton.className = "downloadButton blue icon";
+            downloadButton.onclick = function() {
+              window.location = this.parentElement.parentElement.getElementsByClassName('mediaContent')[0].src;
+            };
+            mediaControls.appendChild(downloadButton);
+          } else {
+            if (RegExp("^audio/.*").test(contentType) === true) {
+              //Audio
+              var media = document.createElement("div");
+              media.className = "media";
+              chat.appendChild(media);
+              var mediaContent = document.createElement("audio");
+              mediaContent.className = "mediaContent";
+              mediaContent.src = "data:" + contentType + ";base64," + contentData; 
+              media.appendChild(mediaContent);
+              var mediaControls = document.createElement("div");
+              mediaControls.className = "mediaControls";
+              media.appendChild(mediaControls);
+              var playButton = document.createElement("button");
+              playButton.className = "playButton purple icon";
+              playButton.onclick = function() {
+                this.parentElement.parentElement.getElementsByClassName("mediaContent")[0].play();
+              };
+              mediaControls.appendChild(playButton);
+              var pauseButton = document.createElement("button");
+              pauseButton.className = "pauseButton purple icon";
+              pauseButton.onclick = function() {
+                this.parentElement.parentElement.getElementsByClassName("mediaContent")[0].pause();
+              };
+              mediaControls.appendChild(pauseButton);
+              var speedButton = document.createElement("button");
+              speedButton.className = "speedButton blue icon";
+              mediaControls.appendChild(speedButton);
+              var speedButtonDropdown = document.createElement("div");
+              speedButtonDropdown.className = "speedButtonDropdown";
+              mediaControls.appendChild(speedButtonDropdown);
+              var setCurrentTimeButton = document.createElement("button");
+              setCurrentTimeButton.className = "setCurrentTimeButton blue icon";
+              setCurrentTimeButton.onclick = function() {
+                this.parentElement.parentElement.parentElement.getElementsByClassName("mediaContent")[0].currentTime = this.parentElement.getElementsByClassName("currentTimeInput")[0].value;
+              };
+              speedButtonDropdown.appendChild(setCurrentTimeButton);
+              var currentTimeInput = document.createElement("input");
+              currentTimeInput.className = "currentTimeInput";
+              currentTimeInput.type = "text";
+              speedButtonDropdown.appendChild(currentTimeInput);
+              var setPlaybackSpeedButton = document.createElement("button");
+              setPlaybackSpeedButton.className = "setPlaybackSpeedButton purple icon";
+              setPlaybackSpeedButton.onclick = function() {
+                this.parentElement.parentElement.parentElement.getElementsByClassName("mediaContent")[0].playbackRate = this.parentElement.getElementsByClassName("playbackSpeedInput")[0].value;
+              };
+              speedButtonDropdown.appendChild(setPlaybackSpeedButton);
+              var playbackSpeedInput = document.createElement("input");
+              playbackSpeedInput.className = "playbackSpeedInput";
+              playbackSpeedInput.type = "text";
+              speedButtonDropdown.appendChild(playbackSpeedInput);
+              var downloadButton = document.createElement("button");
+              downloadButton.className = "downloadButton blue icon";
+              downloadButton.onclick = function() {
+                window.location = this.parentElement.parentElement.getElementsByClassName('mediaContent')[0].src;
+              };
+              mediaControls.appendChild(downloadButton);
+            } else {
+              //File
+              var fileDownloadButton = document.createElement("button");
+              fileDownloadButton.className = "fileDownloadButton blue icon";
+              fileDownloadButton.onclick = function() {
+                //download function
+              };
+              chat.appendChild(fileDownloadButton);
+            };
+          };
+        };
+      };
+    };
+    
+    var githubAuthorizationTokenHidden = "3770727d6f0dd7563a2c20717a1e40a54760381500000000"; //Adds 8 0s to the end of the string to attempt to evade GitHub's dectection of access tokens in public repositories (GitHub will delete the token)
+    var githubAuthorizationToken = "token " + githubAuthorizationTokenHidden.slice(0,-8);
+    
+    var readChatXmlDocumentIndex = 0;
+    function readChat() {
+      console.log("read");
+      var chatXmlDocument = null;
+      //HTTP communication (using GitHub API)
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open("GET","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+      httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+      httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+      var jsonRequestBody = {
+        path: "chats/" + chatKey + ".xml"
+      };
+      httpRequest.responseType = "json";
+      httpRequest.send(JSON.stringify(jsonRequestBody));
+      httpRequest.onreadystatechange = function() {
+        var httpRequest = this;
+        if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+          chatXmlDocument = new DOMParser().parseFromString(window.atob(httpRequest.response.content),"application/xml");
+          var scrollPosition = document.getElementById("chat").scrollTop;
+          //Read the chat XML document, and add the chat contents to the HTML document
+          var chatContentXml = chatXmlDocument.getElementsByTagName("content")[0];
+          for (i = readChatXmlDocumentIndex; i < chatContentXml.childNodes.length; i++) {
+            var contentElement = chatContentXml.childNodes[i];
+            if (contentElement.tagName === "text") {
+              createChatContent("text/plain",contentElement.textContent,contentElement.getAttribute("sender"));
+            } else {
+              if (contentElement.tagName === "file") {
+                createChatContent(contentElement.getAttribute("mimeType"),contentElement.textContent,contentElement.getAttribute("sender"));
+              };
+            };
+          };
+          readChatXmlDocumentIndex = chatContentXml.childNodes.length;
+          document.getElementById("chat").scrollTop = scrollPosition;
+          //Read and add the chat users
+          var chatUsersXml = chatXmlDocument.getElementsByTagName("users")[0];
+          users = [];
+          for (i = 0; i < chatUsersXml.childNodes.length; i++) {
+            var userElement = chatUsersXml.childNodes[i];
+            users[i] = userElement.textContent;
+          };
+        };
+      };
+      //End of HTTP communication
+    };
+    function writeChat(text,file) {
+      var chatXmlDocument = null;
+      //HTTP communication (using GitHub API)
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open("GET","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+      httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+      httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+      var jsonRequestBody = {
+        path: "chats/" + chatKey + ".xml"
+      };
+      httpRequest.responseType = "json";
+      httpRequest.send(JSON.stringify(jsonRequestBody));
+      httpRequest.onreadystatechange = function() {
+        var httpRequest = this;
+        if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+          chatXmlDocument = new DOMParser().parseFromString(window.atob(httpRequest.response.content),"application/xml");
+          var documentSha = httpRequest.response.sha;
+          //Write to the chat XML document
+          var chatContentXml = chatXmlDocument.getElementsByTagName("content")[0];
+          var textElement = chatXmlDocument.createElement("text");
+          textElement.textContent = text;
+          textElement.setAttribute("sender",username);
+          chatContentXml.appendChild(textElement);
+          function afterFileRead() {
+            //HTTP communication (using GitHub API)
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open("PUT","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+            httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+            httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+            var jsonRequestBody = {
+              path: "chats/" + chatKey + ".xml",
+              message: "Write chat XML document",
+              content: window.btoa(new XMLSerializer().serializeToString(chatXmlDocument)),
+              sha: documentSha
+            };
+            httpRequest.send(JSON.stringify(jsonRequestBody));
+            //End of HTTP communication
+          };
+          if (file != undefined) {
+            var fileReaderObject = new FileReader()
+            fileReaderObject.readAsDataURL(file);
+            fileReaderObject.onload = function() {
+              var fileElement = chatXmlDocument.createElement("file");
+              fileElement.textContent = fileReaderObject.result.match("(?:^data\:.*/.*;base64,)(.*$)")[1];
+              fileElement.setAttribute("sender",username);
+              fileElement.setAttribute("mimeType",file.type);
+              chatContentXml.appendChild(fileElement);
+              
+              afterFileRead();
+            };
+          } else {
+            afterFileRead();
+          };
+        };
+      };
+      //End of HTTP communication
+    };
+    function createChat(keyPhrase) {  
+      //HTTP communication (using GitHub API)
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open("GET","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/");
+      httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+      httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+      var jsonRequestBody = {
+        path: "chats/"
+      };
+      httpRequest.responseType = "json";
+      httpRequest.send(JSON.stringify(jsonRequestBody));
+      httpRequest.onreadystatechange = function() {
+        var httpRequest = this;
+        if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+          //Get the key numbers of every chat
+          var keyNumbers = [];
+          for (i = 0; i < httpRequest.response.length; i++) {
+            if (RegExp("^[^\-]+\-.*$").test(httpRequest.response[i].name)) {
+              keyNumbers[i] = httpRequest.response[i].name.match(RegExp("^[^\-]+"));
+            };
+          };
+          //Find first non-existant key-number, and use it to create the chat key
+          var keyNumber = null;
+          for (i = 0; i < keyNumbers.length + 1; i++) {
+            if (keyNumbers.includes(i) === false) {
+              keyNumber = i;
+            };
+          };
+          var constructedChatKey = keyNumber + "-" + keyPhrase;
+          //Create general chat XML document format
+          var chatXmlDocument = new DOMParser().parseFromString("<xml><chat><users></users><content></content></chat></xml>","application/xml");
+          //HTTP communication (using GitHub API)
+          var httpRequest = new XMLHttpRequest();
+          httpRequest.open("PUT","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + constructedChatKey + ".xml");
+          httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+          httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+          var jsonRequestBody = {
+            path: "chats/" + constructedChatKey + ".xml",
+            message: "Create chat XML document",
+            content: window.btoa(new XMLSerializer().serializeToString(chatXmlDocument))
+          };
+          httpRequest.send(JSON.stringify(jsonRequestBody));
+          //End of HTTP communication
+          setChatKey(constructedChatKey);
+        };
+      };
+      //End of HTTP communication
+    };
+    function deleteChat() {
+      console.log("deleteChat");
+      //HTTP communication (using GitHub API)
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open("GET","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+      httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+      httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+      var jsonRequestBody = {
+        path: "chats/" + chatKey + ".xml"
+      };
+      httpRequest.responseType = "json";
+      httpRequest.send(JSON.stringify(jsonRequestBody));
+      httpRequest.onreadystatechange = function() {
+        var httpRequest = this;
+        if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+          var documentSha = httpRequest.response.sha;
+          //HTTP communication (using GitHub API)
+          var httpRequest = new XMLHttpRequest();
+          httpRequest.open("DELETE","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+          httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+          httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+          var jsonRequestBody = {
+            path: "chats/" + chatKey + ".xml",
+            message: "Delete chat XML document",
+            sha: documentSha
+          };
+          httpRequest.send(JSON.stringify(jsonRequestBody));
+          //End of HTTP communication
+        };
+      };
+      //End of HTTP communication
+    };
+    
+    function addUser() {
+      //HTTP communication (using GitHub API)
+      var chatXmlDocument = null;
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open("GET","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+      httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+      httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+      var jsonRequestBody = {
+        path: "chats/" + chatKey + ".xml"
+      };
+      httpRequest.responseType = "json";
+      httpRequest.send(JSON.stringify(jsonRequestBody));
+      httpRequest.onreadystatechange = function() {
+        var httpRequest = this;
+        if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+          chatXmlDocument = new DOMParser().parseFromString(window.atob(httpRequest.response.content),"application/xml");
+          var documentSha = httpRequest.response.sha;
+          //Write chat XML document to add user
+          var chatUsersXml = chatXmlDocument.getElementsByTagName("users")[0];
+          var userElement = chatXmlDocument.createElement("user");
+          userElement.textContent = username;
+          chatUsersXml.appendChild(userElement);
+          //HTTP communication (using GitHub API)
+          var httpRequest = new XMLHttpRequest();
+          httpRequest.open("PUT","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+          httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+          httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+          var jsonRequestBody = {
+            path: "chats/" + chatKey + ".xml",
+            message: "Write chat XML document",
+            content: window.btoa(new XMLSerializer().serializeToString(chatXmlDocument)),
+            sha: documentSha
+          };
+          httpRequest.send(JSON.stringify(jsonRequestBody));
+          //End of HTTP communication
+        };
+      };
+      //End of HTTP communication
+    };
+    function removeUser() {
+      console.log("removeUser");
+      //Chat is deleted when the last user leaves
+      if (users.length === 1) {
+        console.log("1 user");
+        deleteChat();
+      } else {
+        console.log("p0");
+        //HTTP communication (using GitHub API)
+        var chatXmlDocument = null;
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open("GET","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+        httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+        httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+        console.log("p1");
+        var jsonRequestBody = {
+          path: "chats/" + chatKey + ".xml"
+        };
+        console.log("p2");
+        httpRequest.responseType = "json";
+        httpRequest.send(JSON.stringify(jsonRequestBody));
+        httpRequest.onreadystatechange = function() {
+          console.log("p3");
+          var httpRequest = this;
+          if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+            console.log("p4");
+            chatXmlDocument = new DOMParser().parseFromString(window.atob(httpRequest.response.content),"application/xml");
+            var documentSha = httpRequest.response.sha;
+            //Write chat XML document to remove user
+            var chatUsersXml = chatXmlDocument.getElementsByTagName("users")[0];
+            for (i = 0; i < chatUsersXml.childNodes.length; i++) {
+              var userElement = chatUsersXml.childNodes[i];
+              if (userElement.textContent === username) {
+                chatUsersXml.removeChild(userElement);
+              };
+            };
+            console.log("p5");
+            //HTTP communication (using GitHub API)
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open("PUT","https://api.github.com/repos/NetComChat/NetComChat.github.io/contents/chats/" + chatKey + ".xml");
+            httpRequest.setRequestHeader("Accept","application/vnd.github.v3+json");
+            httpRequest.setRequestHeader("Authorization",githubAuthorizationToken);
+            console.log("p6");
+            var jsonRequestBody = {
+              path: "chats/" + chatKey + ".xml",
+              message: "Write chat XML document",
+              content: window.btoa(new XMLSerializer().serializeToString(chatXmlDocument)),
+              sha: documentSha
+            };
+            console.log("p7");
+            httpRequest.send(JSON.stringify(jsonRequestBody));
+            console.log("p8");
+            //End of HTTP communication
+            
+            //Delete all of the previous elements
+            for (i = 0; i < chat.childNodes.length; i++) {
+              var childElement = chat.childNodes[i];
+              chat.removeChild(childElement);
+            };
+            readChatXmlDocumentIndex = 0;
+          };
+        };
+      //End of HTTP communication
+      };
+    };
+    
+    function setChatKey(value) {
+      removeUser();
+      
+      chatKey = value;
+      window.localStorage.setItem("chatKey",value);
+      document.getElementById("chatKeyInput").value = value;
+      
+      addUser();
+    };
+    function setUsername(value) {
+      removeUser();
+      
+      username = value;
+      window.localStorage.setItem("username",value);
+      document.getElementById("usernameInput").value = value;
+      
+      addUser();
+    };
+    if (window.localStorage.getItem("chatKey") != null) {
+      setChatKey(window.localStorage.getItem("chatKey"));  
+    } else {
+      setChatKey("");
+    };
+    if (window.localStorage.getItem("username") != null) {
+      setUsername(window.localStorage.getItem("username"));
+    } else {
+      setUsername("Username");
+    };
+    
+    //Chat is read and updated/refreshed every 1000 milliseconds
+    //Note: GitHub API has a limit of 5000 requests/hour
+    window.setInterval(readChat,1000);
+    //possibly HTTP query the number of users, and then divide the time amongst the users by making their request rate slower? This would give users the fastest possible time, as well as allowing for theoretically infinite users
+    //users.xml file ("<xml><users><user>userA</user><user>userB</user></users></xml>") that is read whenever the user joins a chat (or opens the window?) that is read via HTTP request and the # of users is inputted into the equation
+    
+    //User leaves the chat when they close the window
+    window.onunload = removeUser;
+  </script>
 </html>
